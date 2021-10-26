@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckIfGrounded();
         Move();
+        Jump();
     }
 
     private void CheckIfGrounded()
@@ -60,5 +61,15 @@ public class PlayerController : MonoBehaviour
         }
 
         controller.Move(move * targetSpeed * Time.deltaTime);
+    }
+
+    private void Jump()
+    {
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpheight * -2f * gravity);
+        }
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 }
