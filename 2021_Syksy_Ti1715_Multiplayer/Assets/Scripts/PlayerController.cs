@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float groundDistance = 0.1f;
     public LayerMask groundMask;
 
+    public Animator animator;
     [SerializeField] private bool isGrounded;
 
     private Vector3 move;
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private void CheckIfGrounded()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundMask);
-
+        animator.SetBool("Grounded",isGrounded);
         if(isGrounded)
         {
             velocity.y = -2;
@@ -54,12 +55,16 @@ public class PlayerController : MonoBehaviour
         move = transform.right * xAxis + transform.forward * zAxis;
 
         float targetSpeed = Input.GetButton("Fire1") ? runSpeed : moveSpeed;
+
         
+
         if(move == Vector3.zero)
         {
             targetSpeed = 0;
         }
 
+        animator.SetFloat("Speed",targetSpeed);
+        
         controller.Move(move * targetSpeed * Time.deltaTime);
     }
 
